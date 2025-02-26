@@ -4,15 +4,41 @@
 // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
 {
 	"version": "0.2.0",
-    "configurations": [
-        {
-            "name": "Extension",
-            "type": "extensionHost",
-            "request": "launch",
-            "runtimeExecutable": "${execPath}",
-            "args": [
-                "--extensionDevelopmentPath=${workspaceFolder}"
-            ]
-        }
-    ]
+	"configurations": [
+		{
+			"name": "Extension",
+			"type": "extensionHost",
+			"request": "launch",
+			"runtimeExecutable": "${execPath}",
+			//"runtimeExecutable": "${workspaceFolder}/node_modules/vscode/bin/test",
+			"args": [
+				"--extensionDevelopmentPath=${workspaceFolder}"
+			],
+			"outFiles": [
+				"${workspaceFolder}/out/**/*.js"
+			],
+		},
+		{
+			"name": "Bun: Watch for changes",
+			"type": "bun",
+			"request": "launch",
+			"cwd": "${workspaceFolder}",
+			"program": "bun",
+			"args": [
+				"build",
+				"--watch",
+				"--target=node",
+				"--sourcemap=external",
+				"--no-bundle",
+				"--packages=external",
+				"--root=${workspaceFolder}/src",
+				"--outdir=${workspaceFolder}/out",
+				"--external=vscode",
+				"--external=vscode-*",
+				"--",
+				"src/client.ts",
+				"src/server.ts",
+			],
+		},
+	],
 }
